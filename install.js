@@ -24,12 +24,25 @@ module.exports = {
     {
       method: "shell.run",
       params: {
+        build: true,
+        env: {
+          DISTUTILS_USE_SDK: "1"
+        },
         venv: "env",
         path: "app",
         message: [
-          "uv pip install -r ../requirements.txt"
+          "uv pip install -U setuptools",
+          "uv pip install -r ../requirements.txt --no-build-isolation"
         ]
       }
     },
+    {
+      method: "hf.download",
+      params: {
+        path: "app",
+        "_": [ "Wuvin/Unique3D" ],
+        "local-dir": "ckpt",
+      }
+    }
   ]
 }
