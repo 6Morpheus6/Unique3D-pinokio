@@ -4,11 +4,12 @@ module.exports = {
     {
       method: "shell.run",
       params: {
-        venv: "../env",
+        build: true,
+        venv: "env",
         env: { },
-        path: "app/app",
+        path: "app",
         message: [
-          "python gradio_local.py --port 7860",
+          "python gradio_local.py",
         ],
         on: [{
           "event": "/http:\/\/\\S+/",
