@@ -2,7 +2,7 @@ const path = require('path')
 module.exports = {
   version: "3.7",
   title: "Uniqu3D.git",
-  description: "",
+  description: "[NVIDIA ONLY] High-Quality and Efficient 3D Mesh Generation from a Single Image (Minimum requirements 12GB VRAM / 24GB RAM)",
   icon: "icon.png",
   menu: async (kernel, info) => {
     let installed = info.exists("app/env")
