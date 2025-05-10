@@ -1,10 +1,18 @@
 module.exports = {
   run: [
     {
+      when: "{{gpu !== 'nvidia'}}",
+      method: "notify",
+      params: {
+        html: "This app requires an NVIDIA GPU."
+      }, 
+       next: null
+     },
+     {
       method: "shell.run",
       params: {
         message: [
-          "git clone https://github.com/AiuniAI/Unique3D app",
+          "git clone https://github.com/6Morpheus6/Unique3D app",
         ]
       }
     },
@@ -15,8 +23,8 @@ module.exports = {
         params: {
           venv: "env",
           path: "app",
-          xformers: true
-          // triton: true
+          xformers: true,
+          triton: true
           // sageattention: true
         }
       }
@@ -39,9 +47,10 @@ module.exports = {
     {
       method: "hf.download",
       params: {
-        path: "app",
         "_": [ "Wuvin/Unique3D" ],
-        "local-dir": "ckpt",
+        "exclude": '".gitattributes" ".gitignore" "*.md" "*.txt" "*.py" "*.whl" "*.png" "image2normal.yaml" "image2mvimage.yaml" "*.jpg"',
+        "repo-type": "space",
+        "local-dir": "app",
       }
     }
   ]
