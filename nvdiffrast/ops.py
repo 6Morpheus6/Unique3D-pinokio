@@ -5,34 +5,29 @@
 # and any modifications thereto.  Any use, reproduction, disclosure or
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
+import sys
+import os
+import importlib
 import torch
+
 _cached_plugin = {}
 
 def _get_plugin(gl=False):
     if _cached_plugin.get(gl) is not None:
         return _cached_plugin[gl]
 
-    if gl:
-        # Pfad zum vorkompilierten GL Plugin
-        plugin_path = r"G:\pinokio\api\Unique3D.git\app\nvdiffrast_plugin_gl.pyd"
-    else:
-        # Pfad zum Cuda Plugin
-        plugin_path = r"G:\pinokio\api\Unique3D.git\app\nvdiffrast_plugin.pyd"
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "..", ".."))
+    plugin_dir = os.path.join(base_dir, "nvdiffrast")
 
-    # Damit import funktioniert, muss die DLL in einem Verzeichnis liegen, 
-    # das im sys.path ist oder du musst sys.path erweitern:
-    import sys
-    import os
-    plugin_dir = os.path.dirname(plugin_path)
+    if gl:
+        plugin_path = os.path.join(plugin_dir, "nvdiffrast_plugin_gl.pyd")
+    else:
+        plugin_path = os.path.join(plugin_dir, "nvdiffrast_plugin.pyd")
+
     if plugin_dir not in sys.path:
         sys.path.insert(0, plugin_dir)
 
-    # Jetzt ganz normal importieren, der Name muss mit der DLL übereinstimmen:
-    import importlib
-
-    # Der Modulname muss genau zum Dateinamen passen (ohne Extension)
     module_name = os.path.splitext(os.path.basename(plugin_path))[0]
-
     module = importlib.import_module(module_name)
 
     _cached_plugin[gl] = module
