@@ -16,9 +16,7 @@ peft
 Pillow
 pygltflib
 pymeshlab>=2023.12
-git+https://github.com/facebookresearch/pytorch3d.git@stable
 rembg[gpu]
-torch_scatter
 tqdm
 transformers
 trimesh
